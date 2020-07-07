@@ -7,7 +7,17 @@
     - name: Install Role Postgresql
       local_action: command ansible-galaxy install -f geerlingguy.postgresql 
 
+    - name: Check if PostgreSQL is already installed
+      stat: path=/usr/bin/psql
+      register: psql_exists
+
+    - name: Applying role postgresql
+      command: mv ~/.ansible/roles/geerlingguy.postgresql ~/.ansible/roles/pwslab.postgresql
+      when: not psql_exists.stat.exists
+      ignore_errors: yes
+
     - name: Installing PostgreSQL
       include_role:
-          name: geerlingguy.postgresql
+          name: pwslab.postgresql
+      when: not psql_exists.stat.exists
 
