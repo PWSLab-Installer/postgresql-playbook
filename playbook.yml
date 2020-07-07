@@ -1,0 +1,13 @@
+- hosts: localhost
+  connection: local
+
+
+  tasks:
+      
+    - name: Install Role Postgresql
+      local_action: command ansible-galaxy install -f geerlingguy.postgresql 
+
+    - name: Installing PostgreSQL
+      include_role:
+          name: geerlingguy.postgresql
+
